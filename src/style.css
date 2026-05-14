@@ -1,0 +1,402 @@
+/* =========================================================
+   SOFT SAGE / PASTEL GREEN THEME
+   Inspired by calm productivity apps
+   ========================================================= */
+:root {
+  /* Base Colors */
+  --background: hsl(120, 18%, 97%);
+  --foreground: hsl(140, 12%, 18%);
+
+  /* Surfaces */
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(140, 12%, 18%);
+
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(140, 12%, 18%);
+
+  /* Primary Action (Muted Sage) */
+  --primary: hsl(135, 24%, 56%);
+  --primary-hover: hsl(135, 24%, 50%);
+  --primary-active: hsl(135, 24%, 44%);
+  --primary-foreground: hsl(120, 18%, 98%);
+
+  /* Secondary Action */
+  --secondary: hsl(120, 16%, 92%);
+  --secondary-hover: hsl(120, 16%, 88%);
+  --secondary-active: hsl(120, 16%, 83%);
+  --secondary-foreground: hsl(140, 12%, 18%);
+
+  /* Muted & Accent */
+  --muted: hsl(120, 12%, 93%);
+  --muted-foreground: hsl(135, 8%, 46%);
+
+  --accent: hsl(125, 20%, 90%);
+  --accent-foreground: hsl(140, 12%, 18%);
+
+  /* UI Elements */
+  --border: hsl(120, 12%, 85%);
+  --input: hsl(120, 12%, 86%);
+  --ring: hsl(135, 24%, 56%);
+
+  --destructive: hsl(0, 42%, 52%);
+
+  /* Charts */
+  --chart-1: hsl(135, 24%, 56%);
+  --chart-2: hsl(160, 20%, 52%);
+  --chart-3: hsl(95, 22%, 50%);
+  --chart-4: hsl(180, 18%, 48%);
+  --chart-5: hsl(145, 18%, 62%);
+
+  /* Sidebar */
+  --sidebar: hsl(120, 18%, 95%);
+  --sidebar-foreground: hsl(140, 12%, 18%);
+
+  --sidebar-primary: hsl(135, 24%, 56%);
+  --sidebar-primary-foreground: hsl(120, 18%, 98%);
+
+  --sidebar-accent: hsl(120, 14%, 89%);
+  --sidebar-accent-foreground: hsl(140, 12%, 18%);
+
+  --sidebar-border: hsl(120, 12%, 84%);
+  --sidebar-ring: hsl(135, 24%, 56%);
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+:root.dark {
+  /* Base Colors */
+  --background: hsl(140, 10%, 11%);
+  --foreground: hsl(120, 18%, 92%);
+
+  /* Surfaces */
+  --card: hsl(140, 10%, 15%);
+  --card-foreground: hsl(120, 18%, 92%);
+
+  --popover: hsl(140, 10%, 15%);
+  --popover-foreground: hsl(120, 18%, 92%);
+
+  /* Primary Action */
+  --primary: hsl(135, 22%, 62%);
+  --primary-hover: hsl(135, 22%, 67%);
+  --primary-active: hsl(135, 22%, 72%);
+  --primary-foreground: hsl(140, 10%, 11%);
+
+  /* Secondary */
+  --secondary: hsl(140, 10%, 22%);
+  --secondary-hover: hsl(140, 10%, 27%);
+  --secondary-active: hsl(140, 10%, 32%);
+  --secondary-foreground: hsl(120, 18%, 92%);
+
+  /* Muted & Accent */
+  --muted: hsl(140, 8%, 20%);
+  --muted-foreground: hsl(120, 10%, 66%);
+
+  --accent: hsl(140, 10%, 24%);
+  --accent-foreground: hsl(120, 18%, 92%);
+
+  /* UI Elements */
+  --border: hsl(140, 8%, 26%);
+  --input: hsl(140, 8%, 26%);
+  --ring: hsl(135, 22%, 62%);
+
+  --destructive: hsl(0, 46%, 58%);
+
+  /* Charts */
+  --chart-1: hsl(135, 22%, 62%);
+  --chart-2: hsl(160, 18%, 58%);
+  --chart-3: hsl(95, 20%, 56%);
+  --chart-4: hsl(180, 16%, 54%);
+  --chart-5: hsl(145, 16%, 68%);
+
+  /* Sidebar */
+  --sidebar: hsl(140, 10%, 14%);
+  --sidebar-foreground: hsl(120, 18%, 92%);
+
+  --sidebar-primary: hsl(135, 22%, 62%);
+  --sidebar-primary-foreground: hsl(140, 10%, 11%);
+
+  --sidebar-accent: hsl(140, 10%, 22%);
+  --sidebar-accent-foreground: hsl(120, 18%, 92%);
+
+  --sidebar-border: hsl(140, 8%, 25%);
+  --sidebar-ring: hsl(135, 22%, 62%);
+}
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.app {
+  background-color: var(--background);
+  color: var(--foreground);
+  padding: 50px;
+  font-family: "Inter";
+  alignment: top-center;
+  gap: 15px;
+  width: 75%;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+.title {
+  color: var(--foreground);
+
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: var(--muted-foreground);
+
+  font-size: 18px;
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+/* =========================================================
+   CARD / PANEL
+   ========================================================= */
+
+.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: var(--radius-lg);
+
+  padding: 18px;
+
+  shadow: var(--shadow-soft);
+}
+
+.panel {
+  background-color: var(--secondary);
+
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: var(--radius-md);
+
+  height: 40px;
+
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+button:hover {
+  background-color: var(--secondary-hover);
+}
+
+button:active {
+  background-color: var(--secondary-active);
+}
+
+button:focus {
+  border-color: var(--primary);
+
+  shadow: 0px 0px 0px 2px var(--ring);
+}
+
+/* Primary Button */
+
+.button-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+
+  border-color: transparent;
+}
+
+.button-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.button-primary:active {
+  background-color: var(--primary-active);
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+textbox {
+  background-color: var(--input);
+  color: var(--foreground);
+
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: var(--radius-md);
+
+  height: 40px;
+
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+textbox:focus {
+  border-color: var(--primary);
+
+  shadow: 0px 0px 0px 2px var(--ring);
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  background-color: var(--sidebar);
+
+  border-right-width: 1px;
+  border-color: var(--sidebar-border);
+
+  width: 260px;
+
+  padding: 12px;
+}
+
+.sidebar-item {
+  background-color: transparent;
+  color: var(--sidebar-foreground);
+
+  border-radius: var(--radius-md);
+
+  height: 42px;
+
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.sidebar-item:hover {
+  background-color: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+
+.sidebar-item:checked {
+  background-color: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
+}
+
+/* =========================================================
+   TASK ITEMS
+   ========================================================= */
+
+.task-item {
+  background-color: var(--card);
+
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: var(--radius-md);
+
+  padding: 12px;
+}
+
+.task-item:hover {
+  border-color: var(--primary);
+}
+
+.task-item.completed {
+  opacity: 0.55;
+}
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+progressbar {
+  background-color: var(--muted);
+
+  height: 10px;
+
+  border-radius: 999px;
+}
+
+progressbar .progress {
+  background-color: var(--primary);
+
+  border-radius: 999px;
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+scrollview scrollbar {
+  width: 10px;
+
+  background-color: transparent;
+}
+
+scrollview scrollbar thumb {
+  background-color: var(--border);
+
+  border-radius: 999px;
+}
+
+scrollview scrollbar thumb:hover {
+  background-color: var(--primary);
+}
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+.separator {
+  height: 1px;
+  background-color: var(--border);
+}
+
+.donext_container {
+  alignment: top-center;
+  gap: 15px;
+  height: auto;
+}
+.donext_textbox {
+  width: 1s;
+}
+.currently_doing_container {
+  padding-top: 10px;
+  alignment: top-left;
+  gap: 5px;
+  height: auto;
+}
+.currently_doing_label {
+  font-size: x-small;
+  color: var(--muted-foreground);
+}
+.currently_doing_value {
+  width: 1s;
+}
+.currently_doing_value_container {
+  width: 100%;
+  height: auto;
+  alignment: left;
+  gap: 5px;
+}
+.done_tasks_container {
+  gap: 10px;
+  height: 100%;
+}
+.done_tasks_list {
+  height: 1s;
+  gap: 10px;
+}
+.done_tasks_scrollview {
+}
