@@ -396,7 +396,20 @@ scrollview scrollbar thumb:hover {
 }
 .done_tasks_list {
   height: 1s;
-  gap: 10px;
+  gap: 15px;
 }
 .done_tasks_scrollview {
+}
+.done_task_item_container {
+  alignment: left;
+  gap: 10px;
+  height: auto;
+  padding: 10px;
+  corner-radius: 5px;
+}
+.done_task_item {
+  width: 1s;
+}
+.done_task_item_container:hover {
+  background-color: var(--card);
 }

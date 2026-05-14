@@ -1,14 +1,20 @@
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::PathBuf;
 use vizia::prelude::*;
-#[derive(Clone, Debug, PartialEq, Eq)]
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 struct AppTask {
     title: String,
     is_done: bool,
+    id: i32,
 }
 impl AppTask {
-    fn new(title: String) -> Self {
+    fn new(title: String, id: i32) -> Self {
         Self {
             title,
             is_done: false,
+            id,
         }
     }
     fn mark_done(&mut self) {
@@ -20,6 +26,7 @@ impl Default for AppTask {
         Self {
             title: "Currently not doing anything.".to_string(),
             is_done: false,
+            id: 0,
         }
     }
 }
@@ -29,22 +36,60 @@ pub enum AppEvent {
     AddTask,
     CancelTask,
     CompleteTask,
+    DeleteTask(i32),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct AppDataSerializable {
+    donext_input: String,
+    tasks: Vec<AppTask>,
+    current_id: i32,
+}
+
+impl AppDataSerializable {
+    fn path() -> PathBuf {
+        dirs::data_local_dir()
+            .unwrap_or_else(|| PathBuf::from("."))
+            .join("donext")
+            .join("data.json")
+    }
+
+    fn load() -> Option<Self> {
+        let path = Self::path();
+        if path.exists() {
+            let content = fs::read_to_string(&path).ok()?;
+            serde_json::from_str(&content).ok()
+        } else {
+            None
+        }
+    }
+
+    fn save(&self) {
+        let path = Self::path();
+        if let Some(parent) = path.parent() {
+            let _ = fs::create_dir_all(parent);
+        }
+        let content = serde_json::to_string_pretty(self).expect("Failed to serialize data");
+        let _ = fs::write(path, content);
+    }
 }
 struct AppData {
     pub donext_input: Signal<String>,
     pub tasks: Signal<Vec<AppTask>>,
+    pub current_id: i32,
 }
 impl Model for AppData {
-    fn event(&mut self, cx: &mut EventContext, event: &mut Event) {
-        event.map(|app_event, meta| {
-            println!("Event emitted: {:?}", app_event);
+    fn event(&mut self, _cx: &mut EventContext, event: &mut Event) {
+        event.map(|app_event, _meta| {
             match app_event {
                 AppEvent::UpdateDoNextInput(donext) => {
                     self.donext_input.update(|d| *d = donext.to_string());
                 }
                 AppEvent::AddTask => {
                     let current_input = self.donext_input.get();
-                    self.tasks.update(|t| t.push(AppTask::new(current_input)));
+                    self.tasks
+                        .update(|t| t.push(AppTask::new(current_input, self.current_id + 1)));
+                    self.current_id += 1;
 
                     self.donext_input.update(|d| *d = "".to_string());
                 }
@@ -60,21 +105,40 @@ impl Model for AppData {
                         }
                     });
                 }
+                AppEvent::DeleteTask(id) => {
+                    self.tasks.update(|t| {
+                        let index = t.iter().position(|ti| ti.id == *id);
+                        if let Some(index) = index {
+                            t.remove(index);
+                        }
+                    });
+                }
             }
+            let serializable = AppDataSerializable {
+                donext_input: self.donext_input.get(),
+                tasks: self.tasks.get(),
+                current_id: self.current_id,
+            };
+            serializable.save();
         });
     }
 }
 fn main() -> Result<(), ApplicationError> {
-    let app = Application::new(|cx| {
+    let (initial_input, initial_tasks, initial_id) = AppDataSerializable::load()
+        .map(|d| (d.donext_input, d.tasks, d.current_id))
+        .unwrap_or((String::new(), vec![], 0));
+
+    let app = Application::new(move |cx| {
         cx.add_stylesheet(include_style!("src/style.css"))
             .expect("Failed to load css styles.");
         cx.emit(EnvironmentEvent::SetThemeMode(ThemeMode::DarkMode));
 
-        let donext = Signal::new(String::from(""));
-        let tasks: Signal<Vec<AppTask>> = Signal::new(vec![]);
+        let donext = Signal::new(initial_input.clone());
+        let tasks: Signal<Vec<AppTask>> = Signal::new(initial_tasks.clone());
         AppData {
             donext_input: donext,
             tasks,
+            current_id: initial_id,
         }
         .build(cx);
 
@@ -123,13 +187,19 @@ fn main() -> Result<(), ApplicationError> {
                 .class("currently_doing_container");
                 Divider::horizontal(cx);
                 ScrollView::new(cx, move |cx| {
-                    List::new(cx, tasks, move |cx, index, item| {
+                    List::new(cx, tasks, move |cx, _index, item| {
                         let done_task = Memo::new(move |_| {
                             let item = item.get();
                             format!("Done {}", item.title)
                         });
                         if item.get().is_done {
-                            Label::new(cx, done_task).class("done_task_item");
+                            HStack::new(cx, move |cx| {
+                                Label::new(cx, done_task).class("done_task_item");
+                                Button::new(cx, move |cx| Label::new(cx, "Delete")).on_press(
+                                    move |cx| cx.emit(AppEvent::DeleteTask(item.get().id)),
+                                );
+                            })
+                            .class("done_task_item_container");
                         }
                     })
                     .class("done_tasks_list");
