@@ -398,8 +398,6 @@ scrollview scrollbar thumb:hover {
   height: 1s;
   gap: 15px;
 }
-.done_tasks_scrollview {
-}
 .done_task_item_container {
   alignment: left;
   gap: 10px;
